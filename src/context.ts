@@ -1,6 +1,8 @@
 import { PoiElement } from "./element";
 import { drawButton } from "./drawButton";
-import { style } from "./style";
+import { PipMessage } from "./components/message";
+import { PipContainer } from "./components/container";
+import { PipStyle } from "./components/style";
 
 export type Context = {
   pipContainerElement: HTMLDivElement;
@@ -10,15 +12,9 @@ export type Context = {
 
 export const Context = {
   new: (): Context => {
-    const pip = document.createElement("div");
-    pip.id = "userscript-pip-container";
-
-    const pipStyle = document.createElement("style");
-    pipStyle.textContent = style;
-
     return {
-      pipContainerElement: pip,
-      pipStyleElement: pipStyle,
+      pipContainerElement: PipContainer.create(),
+      pipStyleElement: PipStyle.create(),
       init: false,
     };
   },
@@ -35,19 +31,11 @@ export const Context = {
       .flatMap((r) => Array.from(r.addedNodes))
       .filter(PoiElement.isMessage)
       .forEach((node) => {
-        const cloned = node.cloneNode(true) as HTMLElement;
-        cloned.querySelector(".message-body")?.previousSibling?.remove();
-
-        const userId = cloned.getAttribute("data-user-id")!;
-        const userIdSpan = document.createElement("span");
-        userIdSpan.className = "message-author";
-        userIdSpan.innerHTML = `(${userId.slice(0, 6)})`;
-
-        cloned.insertBefore(userIdSpan, cloned.querySelector(".message-body"));
-        context.pipContainerElement.append(cloned);
+        const message = PipMessage.create(node);
+        context.pipContainerElement.append(message);
         context.pipContainerElement.parentElement?.scrollBy(
           0,
-          cloned.clientHeight + 8
+          message.clientHeight + 8
         );
       });
 
