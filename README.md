@@ -16,4 +16,4 @@ Google Chrome にこの UserScript をインストールする方法を以下に
 
 ## 2. UserScript のインストール
 
-[UserScript](https://github.com/iwasa-kosui/userscript-gikopoipoi-chatlog/raw/main/dist/userscript-gikopoipoi-chatlog.user.js) をインストールして下さい。
+[この UserScript](https://github.com/iwasa-kosui/userscript-gikopoipoi-chatlog/raw/main/dist/userscript-gikopoipoi-chatlog.user.js) をインストールして下さい。
